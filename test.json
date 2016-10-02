@@ -1,0 +1,11 @@
+{
+	"dataset": [{
+		"email": "hannes.ingelhag@releye.se",
+		"subject": "Hejsan",
+		"body": "Detta är ett långt meddelande sdkjbsdijsbfjbsdkbfdkljbfdsk.fbdskjfbdkjfdbshbvdff dfdslifdskfjdsnfkjdbfdksjbfdkfdsdsfdskljfdsfdsljfbdsfdsfdsfdskjbfdsfsdfdsfd fdsfkdjsfdsfdsb "
+	}, {
+		"email": "woolke@releye.se",
+		"subject": "Då",
+		"body": "Kort meddelande"
+	}]
+}
