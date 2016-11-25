@@ -11,11 +11,6 @@ end
 
 local function copyNetwork(oldNetwork)
     local newNetwork = NetworkHandler.newNetwork()
---[[ 
-    for i=1, #oldNetwork.neurons do
-        table.insert(newNetwork.neurons, NeuronHandler.copyNeuron(oldNetwork.neuron[i]))
-    end
-]]--
     
     newNetwork.neurons = NeuronHandler.copyNeuron(oldNetwork.neurons)
 
@@ -23,27 +18,22 @@ local function copyNetwork(oldNetwork)
 
 end
 
-local function evaluateNetworkForOutput(network)
-    local inputs = UtilHandler.getWorldInputs()                                 -- get all the world inputs
- 
-    table.insert(inputs, 1)                                                        -- add 1 to get 170
+local function evaluateNetworkForOutput(network, input)
 
-    if #inputs ~= NUM_OF_INPUTS then
-        print("evaluateNetworkForOutpu, inputs != num_of_inputs")                                            -- check if the given input is as expected
-        return {}
-    end
+    local inputs = {}
+    table.insert(inputs, UtilHandler.has_value(inputCompanies, input.Name))
+
 
     for i=1, NUM_OF_INPUTS do                                                   -- set the values of all the input nodes in the network
         network.neurons[i].value = inputs[i]
     end
+
  
     for _,neuron in pairs(network.neurons) do                                                -- here we calculate the value for all the hidden nodes + output nodes
-        --local currentNeuron = network.neurons[i]
         local sum = 0
 
         for j=1, #neuron.incommingLinks do                               -- for all the links given a neuron 
             local incLink = neuron.incommingLinks[j]                             
-
             sum = sum + network.neurons[incLink.into].value*incLink.weight      -- calculated a sumation of all the incoming neurons value weighted with the link weight
         end
 
@@ -53,15 +43,14 @@ local function evaluateNetworkForOutput(network)
 
     end
 
+    -- Check if the email came to the right person!
     local outputs = {}                                                             -- set if the outputs should be pressed or not
     for i=1, NUM_OF_OUTPUTS do
-        local button = "P1 " .. BUTTON_NAMES[i]
-        if network.neurons[i+MAX_NODES].value > 0   then                                   -- the sigmoid function returns a value between -0.5 to 0.5
-            outputs[button] = true                                                           -- if the value is > 0 = press the button
-            --print(button .. ": true")
+        local responsible = RESPONSIBLES[i]
+        if network.neurons[i+MAX_NODES].value > 0  then                                   -- the sigmoid function returns a value between -0.5 to 0.5
+            outputs[responsible] = true                                                        -- if the value is > 0 = send mail
         else
-            outputs[button] = false
-          --  print(button .. ": false")
+            outputs[responsible] = false
         end
     end
 

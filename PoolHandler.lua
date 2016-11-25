@@ -11,7 +11,7 @@ local function newPool()
     pool.currentSpecies = 1     -- nuvarande ras som testas --
     pool.currentGenome = 1      -- nuvarande genom som testas --
     pool.currentFrame = 0       -- vilken frame vi är på i emulationen --
-    pool.maxFitness = 0         -- bästa värdet vi nånsin uppnåt -- 
+    pool.maxFitness = -9999999999999   -- bästa värdet vi nånsin uppnåt -- 
     pool.maxGenerationFitness = 0
     return pool
 end
@@ -112,13 +112,9 @@ local function createNewGeneration(pool)
 
     SpeciesHandler.createNewChildren(pool, newChildren)
 
-   -- print("newchildren efter createNewChildren: " .. #newChildren)
-
     GenomeHandler.removeWeakGenomes(pool.species, true)             -- ta bort alla genomer förutom bästa genomen i rasen.
 
     GenomeHandler.fillUpNewChildren(pool.species, newChildren)      -- fyller upp new children med barn så att vi maxxar populationen i nästa generation
-
-    --print("newchildren efter fillUpNewChildren: " .. #newChildren)
 
     for i = 1, #newChildren do
         SpeciesHandler.addGenomeToSpecies(pool.species, newChildren[i])

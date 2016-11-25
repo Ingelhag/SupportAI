@@ -1,27 +1,51 @@
-SAVE_STATE = "superMario1-1.state"                   -- vi sparar ett state i början på spelet så vi kan ladda om från start hela tiden --
-BUTTON_NAMES = {                             -- vilka möjliga outputs vi har --
-    "A",
-    "B",
-    "Up",
-    "Down",
-    "Left",
-    "Right",
+RESPONSIBLES = {                             -- vilka möjliga outputs vi har --
+	"releye\\andper",
+	"releye\\andreasn",
+	"releye\\bjornp",
+	"releye\\carlr",
+	"releye\\carls",
+	"releye\\emman",
+	"releye\\erich",
+	"releye\\erikj",
+	"releye\\fredrikg",
+	"releye\\gregerh",
+	"releye\\grelin",
+	"releye\\gustavn",
+	"releye\\henrikl",
+	-- "releye\\henriks",
+	"releye\\jannes",
+	"releye\\jesperp",
+	"releye\\johanb",
+	-- "releye\\kristjans",
+	"releye\\lindae",
+	"releye\\linost",
+	"releye\\marcusa",
+	"releye\\marcusb",
+	"releye\\mikaelas",
+	"releye\\mikeb",
+	"releye\\niclaso",
+	"releye\\oskarn",
+	"releye\\ramid",
+	"releye\\ricdju",
+	"releye\\stefanosk",
+	"releye\\timop",
+	"releye\\tobiasa",
+	"releye\\waseema",
+	"releye\\viktork",
 }
-    
-BOX_RADIUS = 6                               -- hur stor hitbox för en tile --      
-INPUT_SIZE = (BOX_RADIUS*2+1)*(BOX_RADIUS*2+1) -- 
+     
+INPUT_SIZE = 1 									-- Avsändaren 
 
-NUM_OF_INPUTS = INPUT_SIZE+1           	        -- hur många inputs vi har från världen --
-NUM_OF_OUTPUTS = #BUTTON_NAMES                  -- hur många outputs vi har (beror på kontrollen)
+NUM_OF_INPUTS = INPUT_SIZE           	        -- hur många inputs vi har från mailet, avsändaren
+NUM_OF_OUTPUTS = #RESPONSIBLES                  -- hur många outputs vi har (ansvariga)
 
-POPULATION = 200--300                            	-- hur många genomer som får finnas för varje generation --
+POPULATION = 200--300                           -- hur många genomer som får finnas för varje generation --
 
 DELTA_DISJOINT 	= 2.0                         	-- används för att bestämma hur stor skillnad det får vara mellan genomer för att de ska tillhöra samma ras (2.0)--
 DELTA_EXCESS 	= 2.0 
 DELTA_WEIGHTS 	= 0.4                          	-- används för att bestämma hur stor skillnad det får vara mellan genomer för att de ska tillhöra samma ras --
 DELTA_THRESHOLD = 1.0                        	-- används för att bestämma hur stor skillnad det får vara mellan genomer för att de ska tillhöra samma ras (1.0)--
                                             	-- deltadisjoints*SkillnadenILänkar + deltaWeights*skillnadenIVikter < Deltathreshold == samma ras --
-
 STALE_SPECIES = 15                           	-- Hur många generationer en ras inte behöver förbättra sitt maxFitness, över detta antal så tas rasen bort -- 
 
 MUTATE_CONNECTIONS_CHANCE = 0.25            	-- sannolikhet för att vi skall försöka ändra vikten på en länk (0.25)--
@@ -35,6 +59,5 @@ PETURB_CHANCE = 0.90                            -- sannolikhet för att vikten s
 CROSSOVER_CHANCE = 0.75                         -- sannolikhet för att ett barn skall skapas av två genomer, annars kopieras bara en genom till barnet -- 
 
 STEP_SIZE = 0.1                              	-- används när vi MODIFIERAR gamla vikter i pointMutate -- 
-TIMEOUT_CONSTANT = 70                        	-- hur länge mario får stå still innan vi avbryter nuvarande simulation -- 
 
-MAX_NODES = 2000                          	-- hur många noder som max får finnas i en Genome --
+MAX_NODES = 2000                          		-- hur många noder som max får finnas i en Genome --

@@ -5,7 +5,7 @@ local SpeciesHandler = {}
 local function newSpecies()
     local species = {}
     
-    species.topFitness = 0          -- bästa fitness för denna ras --
+    species.topFitness = -99999999          -- bästa fitness för denna ras --
     species.staleness = 0           -- ett värde på om rasen inte har förbättrats från tidigare generationer 0 = bra--
     species.genomes = {}             -- alla genomer för denna ras, alla olika sorts "hjärnor" i rasen --
     species.averageRank = 0      -- average fitness för rasen --

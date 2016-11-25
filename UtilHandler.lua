@@ -86,57 +86,88 @@ local function getSprites()
     return sprites
 end
 
-local function writeJsonToFile(pool)
-
-    local newPool = PoolHandler.copyPool(pool)
-
-    for i=1,#newPool.species do
-        local currentSpecies = newPool.species[i]
-        for j=1,#currentSpecies.genomes do
-            currentSpecies.genomes[j].network.neurons = {}
-            currentSpecies.genomes[j].links = #currentSpecies.genomes[j].links
+local function has_value (tab, val)
+    for index, value in ipairs (tab) do
+        if value == val then
+            return index
         end
-        
     end
-    
-    local fileName = "webApplication/generation-" .. newPool.generation .. ".json"
-    print("Write to file: " .. fileName)
-    local outPut = json.encode (newPool, { indent = true })
-    local file = io.open(fileName, "w")
-    file:write(outPut)
-    file:close()
 
-    local fileName = "webApplication/lastGeneration.json"
-    print("Write to file: " .. fileName)
-    local outPut = json.encode (pool, { indent = true })
-    local file = io.open(fileName, "w")
-    file:write(outPut)
-    file:close()
+    return nil
 end
 
--- local function readFromFile(pool)
+local function writeJsonToFile(pool)
 
---     local fileName ="saved/lastGeneration.json"
---     print("read from file " .. fileName)
+    -- local newPool = PoolHandler.copyPool(pool)
 
---     local newCurrentSpecies, newMaxGenerationFitness, newGeneration, newMaxFitness
---     local newSpecies = SpeciesHandler.newSpecies()
---     local network = NetworkHandler.newNetwork()
-
---     local file = assert(io.open(fileName, 'r'))
---     local fileContent = file:read "*a"
-
---     file:close()
-
---     local decodedFileContent, position, err = json.decode(fileContent, 1, nil)
---     if err then
---         print ("Error: " .. err)
---     else
---          pool = PoolHandler.copyFullPool(decodedFileContent)
---     end
+    -- for i=1,#newPool.species do
+    --     local currentSpecies = newPool.species[i]
+    --     for j=1,#currentSpecies.genomes do
+    --         currentSpecies.genomes[j].network.neurons = {}
+    --         currentSpecies.genomes[j].links = #currentSpecies.genomes[j].links
+    --     end
+    -- end
     
---     return pool;
--- end
+    -- local fileName = "backup/generation-" .. newPool.generation .. ".json"
+    -- print("Write to file: " .. fileName)
+    -- local outPut = json.encode (newPool, { indent = true })
+    -- local file = io.open(fileName, "w")
+    -- file:write(outPut)
+    -- file:close()
+
+    -- local fileName = "backup/lastGeneration.json"
+    -- print("Write to file: " .. fileName)
+    -- local outPut = json.encode (pool, { indent = true })
+    -- local file = io.open(fileName, "w")
+    -- file:write(outPut)
+    -- file:close()
+end
+
+local function calcFitness(outputResp, correctResponsible) 
+
+    local theFitness = 0;
+    local nrOfResp = 0;
+
+    for i=1, NUM_OF_OUTPUTS do
+        local responsible = RESPONSIBLES[i]
+        if outputResp[responsible] then
+            nrOfResp = nrOfResp + 1
+            if responsible == correctResponsible then
+                theFitness = theFitness + 60
+            else 
+                theFitness = theFitness - 10
+            end
+        else
+        end
+    end
+
+    return theFitness - (nrOfResp*20)
+
+end
+
+local function readFromFilePool(pool)
+
+    local fileName ="backup/lastGeneration.json"
+    print("read from file " .. fileName)
+
+    local newCurrentSpecies, newMaxGenerationFitness, newGeneration, newMaxFitness
+    local newSpecies = SpeciesHandler.newSpecies()
+    local network = NetworkHandler.newNetwork()
+
+    local file = assert(io.open(fileName, 'r'))
+    local fileContent = file:read "*a"
+
+    file:close()
+
+    local decodedFileContent, position, err = json.decode(fileContent, 1, nil)
+    if err then
+        print ("Error: " .. err)
+    else
+         pool = PoolHandler.copyFullPool(decodedFileContent)
+    end
+    
+    return pool;
+end
 
 local function readFromFile()
 
@@ -163,7 +194,10 @@ UtilHandler.getWorldInputs = getWorldInputs
 UtilHandler.getPositions = getPositions
 UtilHandler.getTile = getTile
 UtilHandler.getSprites = getSprites
+UtilHandler.calcFitness = calcFitness
+UtilHandler.has_value = has_value
 UtilHandler.writeJsonToFile = writeJsonToFile
 UtilHandler.readFromFile = readFromFile
+UtilHandler.readFromFilePool = readFromFilePool
 
 return UtilHandler

@@ -5,18 +5,14 @@ local NeuronHandler = {}
 local function newNeuron()
     local neuron = {}
     neuron.incommingLinks = {}      -- alla inkommande länkar från andra noder -- 
-    neuron.value = 0.0                -- värdet på denna nod --
+    neuron.value = 0.0              -- värdet på denna nod --
 
     return neuron
 end
 
 local function copyNeuron(oldNeurons)
     local newNeurons = {}
-    --neuron.value = 0.0
-   -- newNeurons[1] = NeuronHandler.newNeuron();
 
-   -- print(oldNeurons["1"].value)
-   -- for i = 1, MAX_NODES + NUM_OF_OUTPUTS do
     for i = 1, MAX_NODES + NUM_OF_OUTPUTS do 
 
         if oldNeurons[tostring(i)] ~= nil then
@@ -29,11 +25,9 @@ local function copyNeuron(oldNeurons)
 
         end 
     end
-    --[[
-    for i = 1, #oldNeuron do
-        table.insert(newNeuron.incommingLinks, oldNeuron.incommingLinks[i])
-    end 
-    ]]--
+
+    NeuronHandler.printClass(newNeurons)
+
     return newNeurons
 
 end
